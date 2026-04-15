@@ -1,0 +1,114 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>qml;cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>qrc;rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Form Files">
+      <UniqueIdentifier>{99349809-55BA-4b9d-BF79-8FDBB0286EB3}</UniqueIdentifier>
+      <Extensions>ui</Extensions>
+    </Filter>
+    <Filter Include="Translation Files">
+      <UniqueIdentifier>{639EADAA-A684-42e4-A9AD-28FC9BCB8F7C}</UniqueIdentifier>
+      <Extensions>ts</Extensions>
+    </Filter>
+    <Filter Include="Resource Files\pieces">
+      <UniqueIdentifier>{0d6e7bc2-08d9-41e1-9c9c-8ae0f3450055}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <QtRcc Include="ChessTest.qrc">
+      <Filter>Resource Files</Filter>
+    </QtRcc>
+    <QtUic Include="ChessTest.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtMoc Include="ChessTest.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <ClCompile Include="ChessTest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ChessAlgorithm.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ChessBoard.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ChessView.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ChessLivrable.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="ChessAlgorithm.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="ChessBoard.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="ChessView.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="cpp.hint" />
+    <None Include="..\..\piecesImages\Chess_bdt45.svg">
+      <Filter>Resource Files\pieces</Filter>
+    </None>
+    <None Include="..\..\piecesImages\Chess_blt45.svg">
+      <Filter>Resource Files\pieces</Filter>
+    </None>
+    <None Include="..\..\piecesImages\Chess_kdt45.svg">
+      <Filter>Resource Files\pieces</Filter>
+    </None>
+    <None Include="..\..\piecesImages\Chess_klt45.svg">
+      <Filter>Resource Files\pieces</Filter>
+    </None>
+    <None Include="..\..\piecesImages\Chess_ndt45.svg">
+      <Filter>Resource Files\pieces</Filter>
+    </None>
+    <None Include="..\..\piecesImages\Chess_nlt45.svg">
+      <Filter>Resource Files\pieces</Filter>
+    </None>
+    <None Include="..\..\piecesImages\Chess_pdt45.svg">
+      <Filter>Resource Files\pieces</Filter>
+    </None>
+    <None Include="..\..\piecesImages\Chess_plt45.svg">
+      <Filter>Resource Files\pieces</Filter>
+    </None>
+    <None Include="..\..\piecesImages\Chess_qdt45.svg">
+      <Filter>Resource Files\pieces</Filter>
+    </None>
+    <None Include="..\..\piecesImages\Chess_qlt45.svg">
+      <Filter>Resource Files\pieces</Filter>
+    </None>
+    <None Include="..\..\piecesImages\Chess_rdt45.svg">
+      <Filter>Resource Files\pieces</Filter>
+    </None>
+    <None Include="..\..\piecesImages\Chess_rlt45.svg">
+      <Filter>Resource Files\pieces</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ChessLivrable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

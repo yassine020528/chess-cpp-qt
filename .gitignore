@@ -1,0 +1,70 @@
+# Project architecture:
+# - Keep source and project files in ChessTest/ChessTest/
+# - Keep solution files in ChessTest/
+# - Keep SVG assets in piecesImages/
+# - Ignore Visual Studio, Qt, and compiled build artifacts
+
+# Visual Studio workspace state
+.vs/
+*.suo
+*.user
+*.VC.db
+*.VC.opendb
+*.db-shm
+*.db-wal
+ipch/
+
+# Build outputs produced by this repo's layout
+**/[Dd]ebug/
+**/[Rr]elease/
+**/x64/
+**/x86/
+
+# MSVC / linker outputs
+*.obj
+*.idb
+*.ilk
+*.pdb
+*.exe
+*.dll
+*.lib
+*.exp
+*.recipe
+*.tlog
+*.lastbuildstate
+
+# Visual Studio generated logs and file lists
+*.log
+*.FileListAbsolute.txt
+*.Build.CppClean.log
+
+# Qt generated files
+**/moc/
+**/uic/
+**/rcc/
+**/qmake/
+**/qt/
+ui_*.h
+moc_*.cpp
+qrc_*.cpp
+qtvars*.props
+qtvars*.pro
+qtvars*.xml
+qt_work.log
+import.qml
+.qmake.stash
+moc_predefs.h*
+
+# Keep real project sources and assets tracked
+!ChessTest/
+!ChessTest/ChessTest.sln
+!ChessTest/ChessTest/
+!ChessTest/ChessTest/*.vcxproj
+!ChessTest/ChessTest/*.vcxproj.filters
+!ChessTest/ChessTest/*.cpp
+!ChessTest/ChessTest/*.h
+!ChessTest/ChessTest/*.ui
+!ChessTest/ChessTest/*.qrc
+!ChessTest/ChessTest/cpp.hint
+!piecesImages/
+!piecesImages/*.svg
