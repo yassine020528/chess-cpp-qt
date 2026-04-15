@@ -1,5 +1,45 @@
 #include"ChessLivrable.h"
 
+namespace {
+bool isWhitePiece(char piece)
+{
+    return piece >= 'A' && piece <= 'Z';
+}
+
+bool isBlackPiece(char piece)
+{
+    return piece >= 'a' && piece <= 'z';
+}
+
+bool isPieceOfPlayer(char piece, ChessAlgorithm::Player player)
+{
+    return player == ChessAlgorithm::PlayerWhite ? isWhitePiece(piece) : isBlackPiece(piece);
+}
+
+bool isInsideBoard(const ChessBoard* board, int col, int rank)
+{
+    return col >= 1 && col <= board->columns() && rank >= 1 && rank <= board->ranks();
+}
+
+bool isPathClear(const ChessBoard* board, int colFrom, int rankFrom, int colTo, int rankTo)
+{
+    const int colStep = (colTo > colFrom) - (colTo < colFrom);
+    const int rankStep = (rankTo > rankFrom) - (rankTo < rankFrom);
+    int currentCol = colFrom + colStep;
+    int currentRank = rankFrom + rankStep;
+
+    while (currentCol != colTo || currentRank != rankTo) {
+        if (board->data(currentCol, currentRank) != ' ') {
+            return false;
+        }
+        currentCol += colStep;
+        currentRank += rankStep;
+    }
+
+    return true;
+}
+}
+
 ChessLivrable::ChessLivrable(QObject* parent)
     : ChessAlgorithm(parent)
 {
@@ -17,29 +57,29 @@ bool ChessLivrable::move(int colFrom, int rankFrom,
     int colTo, int rankTo)
 {
     if (currentPlayer() == NoPlayer) {
-        QMessageBox::warning(nullptr, "Erreur", "Game is over");
+        QMessageBox::warning(nullptr, "Error", "Game is over");
         return false;
     }
 
     // is there a piece of the right color?
     char source = board()->data(colFrom, rankFrom);
     if (currentPlayer() == PlayerWhite && source != 'K' && source != 'R' && source != 'B' && source != 'N' && source!='Q' && source != 'P') {
-        QMessageBox::warning(nullptr, "Erreur", "Tour a l'autre joueur");
+        QMessageBox::warning(nullptr, "Error", "It's the other player's turn");
         return false;
     };
     if (currentPlayer() == PlayerDark && source != 'k' && source != 'r' && source != 'b' && source != 'n' && source != 'q' && source != 'p') {
-        QMessageBox::warning(nullptr, "Erreur", "Tour a l'autre joueur");
+        QMessageBox::warning(nullptr, "Error", "It's the other player's turn");
         return false;
     };
 
     // do we move within the board?
     if (colTo < 1 || colTo  > board()->columns()) {
-        QMessageBox::warning(nullptr, "Erreur", "Mouvement invalide");
+        QMessageBox::warning(nullptr, "Error", "Invalid move");
         return false;
     };
 
     if (rankTo < 1 || rankTo > board()->ranks()) {
-        QMessageBox::warning(nullptr, "Erreur", "Mouvement invalide");
+        QMessageBox::warning(nullptr, "Error", "Invalid move");
         return false;
     };
 
@@ -49,18 +89,18 @@ bool ChessLivrable::move(int colFrom, int rankFrom,
         if (destination == ' ') {
             if(rankFrom==2){
                 if ((colFrom != colTo) || ((rankTo != rankFrom + 1)&& (rankTo != rankFrom + 2))) {
-                    QMessageBox::warning(nullptr, "Erreur", "Mouvement invalide");
+                    QMessageBox::warning(nullptr, "Error", "Invalid move");
                     return false;
                 };
             }
             else if ((colFrom != colTo) || rankTo != rankFrom + 1) {
-                QMessageBox::warning(nullptr, "Erreur", "Mouvement invalide");
+                QMessageBox::warning(nullptr, "Error", "Invalid move");
                 return false;
             };
         };
         if (destination == 'k' || destination == 'r' || destination == 'b' || destination == 'n' || destination == 'q' || destination == 'p') {
             if (((colFrom != colTo - 1) && (colFrom != colTo + 1)) || (rankTo != rankFrom + 1)) {
-                QMessageBox::warning(nullptr, "Erreur", "Mouvement invalide");
+                QMessageBox::warning(nullptr, "Error", "Invalid move");
                 return false;
             };
         };
@@ -70,18 +110,18 @@ bool ChessLivrable::move(int colFrom, int rankFrom,
         if (destination == ' ') {
             if (rankFrom == 7) {
                 if ((colFrom != colTo) || ((rankTo != rankFrom - 1) && (rankTo != rankFrom - 2))) {
-                    QMessageBox::warning(nullptr, "Erreur", "Mouvement invalide");
+                    QMessageBox::warning(nullptr, "Error", "Invalid move");
                     return false;
                 };
             }
             else if ((colFrom != colTo) || rankTo != rankFrom - 1) {
-                QMessageBox::warning(nullptr, "Erreur", "Mouvement invalide");
+                QMessageBox::warning(nullptr, "Error", "Invalid move");
                 return false;
             };
         };
         if (destination == 'K' || destination == 'R' || destination == 'B' || destination == 'N' || destination == 'Q' || destination == 'P') {
             if (((colFrom != colTo - 1) && (colFrom != colTo + 1)) || (rankTo != rankFrom - 1)) {
-                QMessageBox::warning(nullptr, "Erreur", "Mouvement invalide");
+                QMessageBox::warning(nullptr, "Error", "Invalid move");
                 return false;
             };
         };
@@ -91,7 +131,7 @@ bool ChessLivrable::move(int colFrom, int rankFrom,
         if (((rankTo != rankFrom || colTo != colFrom) && (rankTo != rankFrom || colTo != colFrom + 1) && (rankTo != rankFrom || colTo != colFrom + -1))
             && ((rankTo != rankFrom - 1 || colTo != colFrom) && (rankTo != rankFrom - 1 || colTo != colFrom + 1) && (rankTo != rankFrom - 1 || colTo != colFrom + -1))
             && ((rankTo != rankFrom + 1 || colTo != colFrom) && (rankTo != rankFrom + 1 || colTo != colFrom + 1) && (rankTo != rankFrom + 1 || colTo != colFrom + -1))) {
-            QMessageBox::warning(nullptr, "Erreur", "Mouvement invalide");
+            QMessageBox::warning(nullptr, "Error", "Invalid move");
             return false;
         };
     };
@@ -106,7 +146,7 @@ bool ChessLivrable::move(int colFrom, int rankFrom,
             for (int counter = 1; counter < abs(rankDelta); counter++) {
                 char destination = board()->data(colFrom + counter, rankFrom + counter);
                 if (destination != ' ') {
-                    QMessageBox::warning(nullptr, "Erreur", "Mouvement invalide");
+                    QMessageBox::warning(nullptr, "Error", "Invalid move");
                     return false;
                 };
             };
@@ -116,7 +156,7 @@ bool ChessLivrable::move(int colFrom, int rankFrom,
             for (int counter = 1; counter < abs(rankDelta); counter++) {
                 char destination = board()->data(colFrom - counter, rankFrom - counter);
                 if (destination != ' ') {
-                    QMessageBox::warning(nullptr, "Erreur", "Mouvement invalide");
+                    QMessageBox::warning(nullptr, "Error", "Invalid move");
                     return false;
                 };
             };
@@ -125,7 +165,7 @@ bool ChessLivrable::move(int colFrom, int rankFrom,
             for (int counter = 1; counter < abs(rankDelta); counter++) {
                 char destination = board()->data(colFrom - counter, rankFrom + counter);
                 if (destination != ' ') {
-                    QMessageBox::warning(nullptr, "Erreur", "Mouvement invalide");
+                    QMessageBox::warning(nullptr, "Error", "Invalid move");
                     return false;
                 };
             };
@@ -134,7 +174,7 @@ bool ChessLivrable::move(int colFrom, int rankFrom,
             for (int counter = 1; counter < abs(rankDelta); counter++) {
                 char destination = board()->data(colFrom + counter, rankFrom - counter);
                 if (destination != ' ') {
-                    QMessageBox::warning(nullptr, "Erreur", "Mouvement invalide");
+                    QMessageBox::warning(nullptr, "Error", "Invalid move");
                     return false;
                 };
             };
@@ -143,7 +183,7 @@ bool ChessLivrable::move(int colFrom, int rankFrom,
             for (int counter = 1; counter < abs(colDelta); counter++) {
                 char destination = board()->data(colFrom + counter, rankFrom);
                 if (destination != ' ') {
-                    QMessageBox::warning(nullptr, "Erreur", "Mouvement invalide");
+                    QMessageBox::warning(nullptr, "Error", "Invalid move");
                     return false;
                 };
             };
@@ -152,7 +192,7 @@ bool ChessLivrable::move(int colFrom, int rankFrom,
             for (int counter = 1; counter < abs(colDelta); counter++) {
                 char destination = board()->data(colFrom - counter, rankFrom);
                 if (destination != ' ') {
-                    QMessageBox::warning(nullptr, "Erreur", "Mouvement invalide");
+                    QMessageBox::warning(nullptr, "Error", "Invalid move");
                     return false;
                 };
             };
@@ -161,7 +201,7 @@ bool ChessLivrable::move(int colFrom, int rankFrom,
             for (int counter = 1; counter < abs(rankDelta); counter++) {
                 char destination = board()->data(colFrom, rankFrom + counter);
                 if (destination != ' ') {
-                    QMessageBox::warning(nullptr, "Erreur", "Mouvement invalide");
+                    QMessageBox::warning(nullptr, "Error", "Invalid move");
                     return false;
                 };
             };
@@ -170,13 +210,13 @@ bool ChessLivrable::move(int colFrom, int rankFrom,
             for (int counter = 1; counter < abs(rankDelta); counter++) {
                 char destination = board()->data(colFrom, rankFrom - counter);
                 if (destination != ' ') {
-                    QMessageBox::warning(nullptr, "Erreur", "Mouvement invalide");
+                    QMessageBox::warning(nullptr, "Error", "Invalid move");
                     return false;
                 };
             };
         }
         else {
-            QMessageBox::warning(nullptr, "Erreur", "Mouvement invalide");
+            QMessageBox::warning(nullptr, "Error", "Invalid move");
             return false; // move is not vertical or horizontal or diagonal
         };
     };
@@ -187,7 +227,7 @@ bool ChessLivrable::move(int colFrom, int rankFrom,
         int colDelta = colTo - colFrom;
         // Check if the move is valid for a knight
         if ((abs(rowDelta) != 2 || abs(colDelta) != 1) && (abs(rowDelta) != 1 || abs(colDelta) != 2)) {
-            QMessageBox::warning(nullptr, "Erreur", "Mouvement invalide");
+            QMessageBox::warning(nullptr, "Error", "Invalid move");
             return false; // move is not valid
         };
     };
@@ -202,7 +242,7 @@ bool ChessLivrable::move(int colFrom, int rankFrom,
             for (int counter = 1; counter < abs(rankDelta); counter++) {
                 char destination = board()->data(colFrom + counter, rankFrom + counter);
                 if (destination != ' ') {
-                    QMessageBox::warning(nullptr, "Erreur", "Mouvement invalide");
+                    QMessageBox::warning(nullptr, "Error", "Invalid move");
                     return false;
                 };
             };
@@ -212,7 +252,7 @@ bool ChessLivrable::move(int colFrom, int rankFrom,
             for (int counter = 1; counter < abs(rankDelta); counter++) {
                 char destination = board()->data(colFrom - counter, rankFrom - counter);
                 if (destination != ' ') {
-                    QMessageBox::warning(nullptr, "Erreur", "Mouvement invalide");
+                    QMessageBox::warning(nullptr, "Error", "Invalid move");
                     return false;
                 };
             };
@@ -221,7 +261,7 @@ bool ChessLivrable::move(int colFrom, int rankFrom,
             for (int counter = 1; counter < abs(rankDelta); counter++) {
                 char destination = board()->data(colFrom - counter, rankFrom + counter);
                 if (destination != ' ') {
-                    QMessageBox::warning(nullptr, "Erreur", "Mouvement invalide");
+                    QMessageBox::warning(nullptr, "Error", "Invalid move");
                     return false;
                 };
             };
@@ -230,13 +270,13 @@ bool ChessLivrable::move(int colFrom, int rankFrom,
             for (int counter = 1; counter < abs(rankDelta); counter++) {
                 char destination = board()->data(colFrom + counter, rankFrom - counter);
                 if (destination != ' ') {
-                    QMessageBox::warning(nullptr, "Erreur", "Mouvement invalide");
+                    QMessageBox::warning(nullptr, "Error", "Invalid move");
                     return false;
                 };
             };
         }
         else {
-            QMessageBox::warning(nullptr, "Erreur", "Mouvement invalide");
+            QMessageBox::warning(nullptr, "Error", "Invalid move");
             return false; // move is not diagonal
         };
     };
@@ -252,7 +292,7 @@ bool ChessLivrable::move(int colFrom, int rankFrom,
             for (int counter = 1; counter < abs(colDelta); counter++) {
                 char destination = board()->data(colFrom + counter, rankFrom);
                 if (destination != ' ') {
-                    QMessageBox::warning(nullptr, "Erreur", "Mouvement invalide");
+                    QMessageBox::warning(nullptr, "Error", "Invalid move");
                     return false;
                 };
             };
@@ -261,7 +301,7 @@ bool ChessLivrable::move(int colFrom, int rankFrom,
             for (int counter = 1; counter < abs(colDelta); counter++) {
                 char destination = board()->data(colFrom - counter, rankFrom);
                 if (destination != ' ') {
-                    QMessageBox::warning(nullptr, "Erreur", "Mouvement invalide");
+                    QMessageBox::warning(nullptr, "Error", "Invalid move");
                     return false;
                 };
             };
@@ -270,7 +310,7 @@ bool ChessLivrable::move(int colFrom, int rankFrom,
             for (int counter = 1; counter < abs(rankDelta); counter++) {
                 char destination = board()->data(colFrom, rankFrom+counter);
                 if (destination != ' ') {
-                    QMessageBox::warning(nullptr, "Erreur", "Mouvement invalide");
+                    QMessageBox::warning(nullptr, "Error", "Invalid move");
                     return false;
                 };
             };
@@ -279,13 +319,13 @@ bool ChessLivrable::move(int colFrom, int rankFrom,
             for (int counter = 1; counter < abs(rankDelta); counter++) {
                 char destination = board()->data(colFrom, rankFrom - counter);
                 if (destination != ' ') {
-                    QMessageBox::warning(nullptr, "Erreur", "Mouvement invalide");
+                    QMessageBox::warning(nullptr, "Error", "Invalid move");
                     return false;
                 };
             };
         }
         else {
-            QMessageBox::warning(nullptr, "Erreur", "Mouvement invalide");
+            QMessageBox::warning(nullptr, "Error", "Invalid move");
             return false; // move is not vertical or horizontal
         };
     };
@@ -294,16 +334,21 @@ bool ChessLivrable::move(int colFrom, int rankFrom,
     destination = board()->data(colTo, rankTo);
     if (currentPlayer() == PlayerWhite) {
         if (destination != ' ' && destination != 'k' && destination != 'b' && destination != 'r' && destination != 'n' && destination != 'q' && destination != 'p') {
-            QMessageBox::warning(nullptr, "Erreur", "Mouvement invalide");
+            QMessageBox::warning(nullptr, "Error", "Invalid move");
             return false;
         };
     };
     if (currentPlayer() == PlayerDark) {
         if (destination != ' ' && destination != 'K' && destination != 'B' && destination != 'R' && destination != 'N' && destination != 'Q' && destination != 'P') {
-            QMessageBox::warning(nullptr, "Erreur", "Mouvement invalide");
+            QMessageBox::warning(nullptr, "Error", "Invalid move");
             return false;
         };
     };
+
+    if (moveLeavesKingInCheck(colFrom, rankFrom, colTo, rankTo, currentPlayer())) {
+        QMessageBox::warning(nullptr, "Error", "Invalid move: your king would be in check");
+        return false;
+    }
 
     // make the move
     board()->movePiece(colFrom, rankFrom, colTo, rankTo);
@@ -426,109 +471,144 @@ bool ChessLivrable::move(int colFrom, int rankFrom,
         };
     };
 
+    const Player nextPlayer = currentPlayer() == PlayerWhite ? PlayerDark : PlayerWhite;
+    const bool opponentKingInCheck = isKingInCheck(nextPlayer);
+
     // check win condition
-    if ((currentPlayer() == PlayerWhite && !whiteKingCanMove()) || (currentPlayer() == PlayerDark && destination=='K')) {
+    if (currentPlayer() == PlayerDark && destination=='K') {
         setCurrentPlayer(NoPlayer);
         QMessageBox::warning(nullptr, "Game Over", "Dark wins");
         setResult(PlayerDarkWins); // dark wins
         return true;
     };
-    if ((currentPlayer() == PlayerDark && !blackKingCanMove()) || (currentPlayer() == PlayerWhite && destination=='k')) {
+    if ((currentPlayer() == PlayerWhite && opponentKingInCheck)) {
+        QMessageBox::warning(nullptr, "Watch out", "Dark king at check");
+    };
+    if (currentPlayer() == PlayerWhite && destination=='k') {
         setCurrentPlayer(NoPlayer);
         QMessageBox::warning(nullptr, "Game Over", "White wins");
         setResult(PlayerWhiteWins); // white wins
         return true;
     };
-    // check if kings at check
-    if (currentPlayer() == PlayerDark && !whiteKingCanMove()) {
+    if (currentPlayer() == PlayerDark && opponentKingInCheck) {
         QMessageBox::warning(nullptr, "Watch out", "White king at check");
     };
-    if (currentPlayer() == PlayerWhite && !blackKingCanMove()) {
-        setCurrentPlayer(NoPlayer);
-        QMessageBox::warning(nullptr, "Watch out", "Dark king at check");
-    };
     // the other player makes the move now
-    setCurrentPlayer(currentPlayer() == PlayerWhite ? PlayerDark : PlayerWhite);
+    setCurrentPlayer(nextPlayer);
     return true;
 }
 bool ChessLivrable::whiteKingCanMove() const {
-    int kingCol = m_whiteKing.x();
-    int kingRank = m_whiteKing.y();
-    int blackKingCol = m_blackKing.x();
-    int blackKingRank = m_blackKing.y();
-    int queenCol = m_blackQueen.x();
-    int queenRank = m_blackQueen.y();
-    int knight1Col = m_blackKnight1.x();
-    int knight1Rank = m_blackKnight1.y();
-    int bishop1Col = m_blackBishop1.x();
-    int bishop1Rank = m_blackBishop1.y();
-    int rook1Col = m_blackRook1.x();
-    int rook1Rank = m_blackRook1.y();
-    int knight2Col = m_blackKnight2.x();
-    int knight2Rank = m_blackKnight2.y();
-    int bishop2Col = m_blackBishop2.x();
-    int bishop2Rank = m_blackBishop2.y();
-    int rook2Col = m_blackRook2.x();
-    int rook2Rank = m_blackRook2.y();
-    int pawn1Col = m_blackPawn1.x();
-    int pawn1Rank = m_blackPawn1.y();
-    int pawn2Col = m_blackPawn2.x();
-    int pawn2Rank = m_blackPawn2.y();
-    int pawn3Col = m_blackPawn3.x();
-    int pawn3Rank = m_blackPawn3.y();
-    int pawn4Col = m_blackPawn4.x();
-    int pawn4Rank = m_blackPawn4.y();
-    int pawn5Col = m_blackPawn5.x();
-    int pawn5Rank = m_blackPawn5.y();
-    int pawn6Col = m_blackPawn6.x();
-    int pawn6Rank = m_blackPawn6.y();
-    int pawn7Col = m_blackPawn7.x();
-    int pawn7Rank = m_blackPawn7.y();
-    int pawn8Col = m_blackPawn8.x();
-    int pawn8Rank = m_blackPawn8.y();
-    return kingSurvives(kingCol, kingRank, blackKingCol, blackKingRank, queenCol, queenRank, knight1Col, knight1Rank, bishop1Col, bishop1Rank, rook1Col, rook1Rank)
-        || kingSurvives(kingCol, kingRank, blackKingCol, blackKingRank, queenCol, queenRank, knight2Col, knight2Rank, bishop2Col, bishop2Rank, rook2Col, rook2Rank)
-        || kingSurvivesPawns(kingCol, kingRank,pawn1Col, pawn1Rank, pawn2Col, pawn2Rank, pawn3Col, pawn3Rank, pawn4Col, pawn4Rank, pawn5Col, pawn5Rank, pawn6Col, pawn6Rank, pawn7Col, pawn7Rank, pawn8Col,pawn8Rank);
+    return !isKingInCheck(PlayerWhite);
 }
 
 bool ChessLivrable::blackKingCanMove() const {
-    int kingCol = m_blackKing.x();
-    int kingRank = m_blackKing.y();
-    int whiteKingCol = m_whiteKing.x();
-    int whiteKingRank = m_whiteKing.y();
-    int queenCol = m_whiteQueen.x();
-    int queenRank = m_whiteQueen.y();
-    int knight1Col = m_whiteKnight1.x();
-    int knight1Rank = m_whiteKnight1.y();
-    int bishop1Col = m_whiteBishop1.x();
-    int bishop1Rank = m_whiteBishop1.y();
-    int rook1Col = m_whiteRook1.x();
-    int rook1Rank = m_whiteRook1.y();
-    int knight2Col = m_whiteKnight2.x();
-    int knight2Rank = m_whiteKnight2.y();
-    int bishop2Col = m_whiteBishop2.x();
-    int bishop2Rank = m_whiteBishop2.y();
-    int rook2Col = m_whiteRook2.x();
-    int rook2Rank = m_whiteRook2.y();
-    int pawn1Col = m_whitePawn1.x();
-    int pawn1Rank = m_whitePawn1.y();
-    int pawn2Col = m_whitePawn2.x();
-    int pawn2Rank = m_whitePawn2.y();
-    int pawn3Col = m_whitePawn3.x();
-    int pawn3Rank = m_whitePawn3.y();
-    int pawn4Col = m_whitePawn4.x();
-    int pawn4Rank = m_whitePawn4.y();
-    int pawn5Col = m_whitePawn5.x();
-    int pawn5Rank = m_whitePawn5.y();
-    int pawn6Col = m_whitePawn6.x();
-    int pawn6Rank = m_whitePawn6.y();
-    int pawn7Col = m_whitePawn7.x();
-    int pawn7Rank = m_blackPawn7.y();
-    int pawn8Col = m_blackPawn8.x();
-    int pawn8Rank = m_blackPawn8.y();
-    return kingSurvives(kingCol, kingRank, whiteKingCol, whiteKingRank, queenCol, queenRank, knight1Col, knight1Rank, bishop1Col, bishop1Rank, rook1Col, rook1Rank)
-        || kingSurvives(kingCol, kingRank, whiteKingCol, whiteKingRank, queenCol, queenRank, knight2Col, knight2Rank, bishop2Col, bishop2Rank, rook2Col, rook2Rank)
-        || kingSurvivesPawns(kingCol,kingRank,pawn1Col, pawn1Rank, pawn2Col, pawn2Rank, pawn3Col, pawn3Rank, pawn4Col, pawn4Rank, pawn5Col, pawn5Rank, pawn6Col, pawn6Rank, pawn7Col, pawn7Rank, pawn8Col, pawn8Rank);
+    return !isKingInCheck(PlayerDark);
+}
+QPoint ChessLivrable::findKing(Player player) const
+{
+    const char king = player == PlayerWhite ? 'K' : 'k';
+
+    for (int rank = 1; rank <= board()->ranks(); ++rank) {
+        for (int col = 1; col <= board()->columns(); ++col) {
+            if (board()->data(col, rank) == king) {
+                return QPoint(col, rank);
+            }
+        }
+    }
+
+    return QPoint();
+}
+
+bool ChessLivrable::isSquareAttackedBy(int col, int rank, Player attacker) const
+{
+    for (int fromRank = 1; fromRank <= board()->ranks(); ++fromRank) {
+        for (int fromCol = 1; fromCol <= board()->columns(); ++fromCol) {
+            const char piece = board()->data(fromCol, fromRank);
+            if (!isPieceOfPlayer(piece, attacker)) {
+                continue;
+            }
+
+            const int rankDelta = rank - fromRank;
+            const int colDelta = col - fromCol;
+
+            switch (piece) {
+            case 'P':
+                if (rankDelta == 1 && (colDelta == -1 || colDelta == 1)) {
+                    return true;
+                }
+                break;
+            case 'p':
+                if (rankDelta == -1 && (colDelta == -1 || colDelta == 1)) {
+                    return true;
+                }
+                break;
+            case 'N':
+            case 'n':
+                if ((abs(rankDelta) == 2 && abs(colDelta) == 1) || (abs(rankDelta) == 1 && abs(colDelta) == 2)) {
+                    return true;
+                }
+                break;
+            case 'B':
+            case 'b':
+                if (abs(rankDelta) == abs(colDelta) && isPathClear(board(), fromCol, fromRank, col, rank)) {
+                    return true;
+                }
+                break;
+            case 'R':
+            case 'r':
+                if ((rankDelta == 0 || colDelta == 0) && !(rankDelta == 0 && colDelta == 0)
+                    && isPathClear(board(), fromCol, fromRank, col, rank)) {
+                    return true;
+                }
+                break;
+            case 'Q':
+            case 'q':
+                if (((abs(rankDelta) == abs(colDelta)) || rankDelta == 0 || colDelta == 0)
+                    && !(rankDelta == 0 && colDelta == 0)
+                    && isPathClear(board(), fromCol, fromRank, col, rank)) {
+                    return true;
+                }
+                break;
+            case 'K':
+            case 'k':
+                if (abs(rankDelta) <= 1 && abs(colDelta) <= 1 && !(rankDelta == 0 && colDelta == 0)) {
+                    return true;
+                }
+                break;
+            default:
+                break;
+            }
+        }
+    }
+
+    return false;
+}
+
+bool ChessLivrable::isKingInCheck(Player player) const
+{
+    const QPoint king = findKing(player);
+    if (!isInsideBoard(board(), king.x(), king.y())) {
+        return false;
+    }
+
+    const Player attacker = player == PlayerWhite ? PlayerDark : PlayerWhite;
+    return isSquareAttackedBy(king.x(), king.y(), attacker);
+}
+
+bool ChessLivrable::moveLeavesKingInCheck(int colFrom, int rankFrom, int colTo, int rankTo, Player player)
+{
+    const char source = board()->data(colFrom, rankFrom);
+    const char destination = board()->data(colTo, rankTo);
+
+    board()->setData(colTo, rankTo, source);
+    board()->setData(colFrom, rankFrom, ' ');
+
+    const bool inCheck = isKingInCheck(player);
+
+    board()->setData(colFrom, rankFrom, source);
+    board()->setData(colTo, rankTo, destination);
+
+    return inCheck;
 }
 bool ChessLivrable::kingSurvivesPawns(int kingCol, int kingRank,int pawn1Col, int pawn1Rank, int pawn2Col, int pawn2Rank, int pawn3Col,int pawn3Rank, int pawn4Col, int pawn4Rank, int pawn5Col, int pawn5Rank, int pawn6Col, int pawn6Rank, int pawn7Col, int pawn7Rank, int pawn8Col, int pawn8Rank)const {
     bool test = false;

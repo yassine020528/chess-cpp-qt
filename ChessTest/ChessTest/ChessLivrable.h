@@ -10,6 +10,10 @@ public:
     bool move(int colFrom, int rankFrom, int colTo, int rankTo);
     bool whiteKingCanMove() const;
     bool blackKingCanMove() const;
+    QPoint findKing(Player player) const;
+    bool isSquareAttackedBy(int col, int rank, Player attacker) const;
+    bool isKingInCheck(Player player) const;
+    bool moveLeavesKingInCheck(int colFrom, int rankFrom, int colTo, int rankTo, Player player);
     bool kingSurvives(int kingCol, int kingRank, int oppositeKingCol, int oppositeKingRank, int queenCol, int queenRank, int knightCol, int knightRank, int bishopCol, int bishopRank, int rookCol, int rookRank)const;
     bool kingSurvivesPawns(int kingCol,int kingRank,int pawn1Col, int pawn1Rank, int pawn2Col, int pawn2Rank, int pawn3Col, int pawn3Rank, int pawn4Col, int pawn4Rank, int pawn5Col, int pawn5Rank, int pawn6Col, int pawn6Rank, int pawn7Col, int pawn7Rank, int pawn8Col, int pawn8Rank)const;
     bool kingEaten(int rankTo, int colTo, int oppositeKingCol, int oppositeKingRank, int queenCol, int queenRank, int knightCol, int knightRank, int bishopCol, int bishopRank, int rookCol, int rookRank)const;
