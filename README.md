@@ -84,6 +84,7 @@ Concrete chess rules implementation that currently includes:
 - movement validation for pawns, kings, queens, rooks, bishops, and knights
 - path blocking checks for sliding pieces
 - prevention of moves that leave the moving side king in check
+- check detection for the opposing king after a move
 - check warnings via message boxes
 
 ## Gameplay Status
@@ -94,10 +95,12 @@ Implemented in the current code:
 - click-to-move interaction
 - legal movement checks for all standard piece types
 - king-in-check detection used to reject illegal moves
+- opponent check detection after a legal move
 
 Current limitations:
 
-- game over is currently based on king capture, not full checkmate/stalemate resolution
+- the game does not currently resolve full checkmate or stalemate
+- game over is currently triggered by king capture
 - no castling
 - no en passant
 - no pawn promotion
