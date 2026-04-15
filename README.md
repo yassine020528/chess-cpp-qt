@@ -2,7 +2,7 @@
 
 A desktop chess project built with C++, Qt Widgets, and Visual Studio.
 
-The application opens a chessboard window, renders pieces from SVG assets, and lets players move pieces by clicking a source square and then a destination square. The current codebase includes board representation, a custom Qt board view, turn handling, move validation for the main piece types, and basic game-state messaging.
+The application opens a chessboard window, renders pieces from SVG assets, and lets players move pieces by clicking a source square and then a destination square. The current codebase includes board representation, a custom Qt board view, turn handling, move validation for all the piece types, and basic game-state messaging.
 
 ## Stack
 
