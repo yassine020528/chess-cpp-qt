@@ -1,137 +1,132 @@
-# ProjectTestChess
+# chess-cpp-qt
 
-A desktop chess project built with C++, Qt Widgets, and Visual Studio.
+A desktop chess application built with C++, Qt Widgets, and Visual Studio.
 
-The application opens a chessboard window, renders pieces from SVG assets, and lets players move pieces by clicking a source square and then a destination square. The current codebase includes board representation, a custom Qt board view, turn handling, move validation for all the piece types, and basic game-state messaging.
+The app renders an interactive 8x8 board, loads SVG pieces from the repository assets folder, and supports click-to-move gameplay (select source square, then destination square).
 
-## Stack
+## Tech Stack
 
 - C++
-- Qt Widgets
-- Visual Studio solution/project (`.sln` / `.vcxproj`)
-- SVG piece assets
+- Qt 6 Widgets (Core, Gui, Widgets)
+- Visual Studio solution/project files (.sln / .vcxproj)
 
 ## Repository Layout
 
 ```text
-ProjectTestChess/
-|- .gitignore
+chess-cpp-qt/
 |- README.md
-|- Game/
-|  |- Chess.sln
-|  |- Chess/
-|     |- main.cpp
-|     |- ChessWindow.cpp / ChessWindow.h
-|     |- ChessBoard.cpp / ChessBoard.h
-|     |- ChessView.cpp / ChessView.h
-|     |- ChessAlgorithm.cpp / ChessAlgorithm.h
-|     |- ChessGame.cpp / ChessGame.h
-|     |- Chess.ui
-|     |- Chess.qrc
-|     |- Chess.vcxproj
-|     |- Chess.vcxproj.filters
+|- .gitignore
 |- assets/
-   |- Chess_*.svg
+|  |- Chess_*.svg
+|- Game/
+   |- Chess.sln
+   |- Chess/
+      |- main.cpp
+      |- ChessWindow.cpp / ChessWindow.h
+      |- ChessView.cpp / ChessView.h
+      |- ChessBoard.cpp / ChessBoard.h
+      |- ChessAlgorithm.cpp / ChessAlgorithm.h
+      |- ChessGame.cpp / ChessGame.h
+      |- Chess.ui
+      |- Chess.qrc
+      |- Chess.vcxproj
+      |- Chess.vcxproj.filters
 ```
 
 ## Architecture Overview
 
-### `main.cpp`
+### main.cpp
 
-Creates the Qt application and shows the main window.
+Creates QApplication, instantiates ChessWindow, and enters the event loop.
 
-### `ChessWindow`
+### ChessWindow
 
-Main window controller. It:
+Main UI controller that:
 
-- creates the visual board (`ChessView`)
-- creates the game logic object (`ChessGame`)
+- creates ChessView and ChessGame
 - starts a new game
-- loads piece icons from `assets/`
-- handles click-to-move interaction
-- highlights the selected square
+- wires click handling to move execution
+- loads piece icons from ../../assets/*.svg
+- highlights the currently selected square
 
-### `ChessBoard`
+### ChessBoard
 
-Stores the 8x8 board state and exposes:
+Board data model that:
 
-- board dimensions
-- square access and updates
-- piece movement on the board
-- FEN-based board initialization
+- stores board state in an 8x8 grid
+- exposes read/write square access
+- applies moves
+- supports FEN placement loading
 
-### `ChessView`
+### ChessView
 
-Custom Qt widget responsible for:
+Custom QWidget responsible for:
 
-- drawing the board
-- drawing rank/file labels
+- drawing board cells and labels
 - drawing piece icons
-- converting mouse clicks into board coordinates
-- rendering square highlights
+- translating mouse clicks to board coordinates
+- drawing selection highlights
 
-### `ChessAlgorithm`
+### ChessAlgorithm
 
-Base game-logic class. It provides:
+Base logic class that provides:
 
-- the board object
+- board lifecycle/setup
+- current player state
 - game result state
-- current-player state
-- a generic `newGame()`
-- a virtual `move(...)` API for specialized rules
+- virtual move API
 
-### `ChessGame`
+### ChessGame
 
-Concrete chess logic used by the app. It currently contains:
+Concrete chess rules implementation that currently includes:
 
-- turn validation
-- move validation for pawns, kings, queens, knights, bishops, and rooks
-- piece-position tracking for game-state checks
-- warning dialogs for invalid moves and some check/game-over states
+- turn enforcement (white/dark alternating)
+- movement validation for pawns, kings, queens, rooks, bishops, and knights
+- path blocking checks for sliding pieces
+- prevention of moves that leave the moving side king in check
+- check warnings via message boxes
+
+## Gameplay Status
+
+Implemented in the current code:
+
+- standard initial position
+- click-to-move interaction
+- legal movement checks for all standard piece types
+- king-in-check detection used to reject illegal moves
+
+Current limitations:
+
+- game over is currently based on king capture, not full checkmate/stalemate resolution
+- no castling
+- no en passant
+- no pawn promotion
+- no automated tests in this repository
+
+## Build Requirements (Windows)
+
+- Visual Studio 2022 with Desktop development with C++
+- MSVC v143 toolset
+- Windows SDK
+- Qt installation compatible with the configured kits
+- Qt Visual Studio Tools (QtMsBuild integration)
+
+## Qt Kit Configuration Note
+
+The project file currently references different Qt kits by configuration:
+
+- Debug|x64: 6.11.0_msvc2022_64
+- Release|x64: 6.5.0_msvc2019_64
+
+If either kit is missing on your machine, update the Qt project settings in Visual Studio or install matching kits.
+
+## Build And Run
+
+1. Open Game/Chess.sln in Visual Studio.
+2. Ensure QtMsBuild is installed and the Qt kits above resolve correctly.
+3. Select x64 and either Debug or Release.
+4. Build and run the Chess project.
 
 ## Assets
 
-All chess piece images live in [`assets`](./assets). The application loads them with relative paths from the Visual Studio project, so this folder must stay in the repository.
-
-## Build Requirements
-
-To open and build the solution on another machine, the repo alone is not enough. The machine also needs:
-
-- Visual Studio 2022
-- Desktop development with C++
-- MSVC toolset `v143`
-- a compatible Windows SDK
-- Qt installed
-- Qt Visual Studio Tools / `QtMsBuild`
-
-## Open And Run
-
-1. Clone the repository.
-2. Open [`Chess.sln`](/Game/Chess.sln) in Visual Studio.
-3. Make sure Visual Studio can resolve the Qt installation used by the project.
-4. Build and run the `Chess` project.
-
-## Important Portability Note
-
-The current project file uses teh following Qt kit for Debug :
-
-- `Debug|x64`: `6.11.0_msvc2022_64`
-
-## Current Behavior
-
-From the current codebase, the application supports:
-
-- starting from the standard initial chess position
-- alternating turns between white and dark pieces
-- selecting a piece and moving it by clicking
-- validating many standard piece movement patterns
-- showing message boxes for invalid moves and some game-state warnings
-
-## Known Limits
-
-Based on the current implementation, this project appears to be a course/project build rather than a full tournament-complete chess engine. In particular:
-
-- there are no automated tests in the repository
-- build artifacts were previously generated in the project tree and are now ignored via `.gitignore`
-- advanced rules such as castling, promotion, and en passant do not appear in the current source
-- the game-state logic is custom and should be treated as educational/project logic rather than a fully verified chess rules engine
+Piece icons are loaded from assets/*.svg using relative paths from the executable working directory. Keep the assets folder in this repository layout so icons load correctly at runtime.
