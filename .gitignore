@@ -1,7 +1,7 @@
 # Project architecture:
-# - Keep source and project files in ChessTest/ChessTest/
-# - Keep solution files in ChessTest/
-# - Keep SVG assets in piecesImages/
+# - Keep source and project files in Game/Chess/
+# - Keep solution files in Game/
+# - Keep SVG assets in assets/
 # - Ignore Visual Studio, Qt, and compiled build artifacts
 
 # Visual Studio workspace state
@@ -56,15 +56,17 @@ import.qml
 moc_predefs.h*
 
 # Keep real project sources and assets tracked
-!ChessTest/
-!ChessTest/ChessTest.sln
-!ChessTest/ChessTest/
-!ChessTest/ChessTest/*.vcxproj
-!ChessTest/ChessTest/*.vcxproj.filters
-!ChessTest/ChessTest/*.cpp
-!ChessTest/ChessTest/*.h
-!ChessTest/ChessTest/*.ui
-!ChessTest/ChessTest/*.qrc
-!ChessTest/ChessTest/cpp.hint
-!piecesImages/
-!piecesImages/*.svg
+!Game/
+!Game/Chess.sln
+!Game/Chess/
+!Game/Chess/*.vcxproj
+!Game/Chess/*.vcxproj.filters
+!Game/Chess/*.cpp
+!Game/Chess/*.h
+!Game/Chess/*.ui
+!Game/Chess/*.qrc
+!Game/Chess/cpp.hint
+!Game/assets/
+!Game/assets/*.svg
+!assets/
+!assets/*.svg

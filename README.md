@@ -17,20 +17,20 @@ The application opens a chessboard window, renders pieces from SVG assets, and l
 ProjectTestChess/
 |- .gitignore
 |- README.md
-|- ChessTest/
-|  |- ChessTest.sln
-|  |- ChessTest/
+|- Game/
+|  |- Chess.sln
+|  |- Chess/
 |     |- main.cpp
-|     |- ChessTest.cpp / ChessTest.h
+|     |- ChessWindow.cpp / ChessWindow.h
 |     |- ChessBoard.cpp / ChessBoard.h
 |     |- ChessView.cpp / ChessView.h
 |     |- ChessAlgorithm.cpp / ChessAlgorithm.h
 |     |- ChessLivrable.cpp / ChessLivrable.h
-|     |- ChessTest.ui
-|     |- ChessTest.qrc
-|     |- ChessTest.vcxproj
-|     |- ChessTest.vcxproj.filters
-|- piecesImages/
+|     |- Chess.ui
+|     |- Chess.qrc
+|     |- Chess.vcxproj
+|     |- Chess.vcxproj.filters
+|- assets/
    |- Chess_*.svg
 ```
 
@@ -40,14 +40,14 @@ ProjectTestChess/
 
 Creates the Qt application and shows the main window.
 
-### `ChessTest`
+### `ChessWindow`
 
 Main window controller. It:
 
 - creates the visual board (`ChessView`)
 - creates the game logic object (`ChessLivrable`)
 - starts a new game
-- loads piece icons from `piecesImages/`
+- loads piece icons from `assets/`
 - handles click-to-move interaction
 - highlights the selected square
 
@@ -91,7 +91,7 @@ Concrete chess logic used by the app. It currently contains:
 
 ## Assets
 
-All chess piece images live in [`piecesImages`](./piecesImages). The application loads them with relative paths from the Visual Studio project, so this folder must stay in the repository.
+All chess piece images live in [`assets`](./assets). The application loads them with relative paths from the Visual Studio project, so this folder must stay in the repository.
 
 ## Build Requirements
 
@@ -107,9 +107,9 @@ To open and build the solution on another machine, the repo alone is not enough.
 ## Open And Run
 
 1. Clone the repository.
-2. Open [`ChessTest.sln`](C:/Yassine/COURS/1ERE_ANNEE/SESSION2/INF1015/ProjectTestChess/ChessTest/ChessTest.sln) in Visual Studio.
+2. Open [`Chess.sln`](/Game/Chess.sln) in Visual Studio.
 3. Make sure Visual Studio can resolve the Qt installation used by the project.
-4. Build and run the `ChessTest` project.
+4. Build and run the `Chess` project.
 
 ## Important Portability Note
 

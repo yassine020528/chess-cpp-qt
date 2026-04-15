@@ -83,13 +83,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <QtRcc Include="ChessTest.qrc" />
-    <QtUic Include="ChessTest.ui" />
-    <QtMoc Include="ChessTest.h" />
+    <QtRcc Include="Chess.qrc" />
+    <QtUic Include="Chess.ui" />
+    <QtMoc Include="ChessWindow.h" />
     <ClCompile Include="ChessAlgorithm.cpp" />
     <ClCompile Include="ChessBoard.cpp" />
     <ClCompile Include="ChessLivrable.cpp" />
-    <ClCompile Include="ChessTest.cpp" />
+    <ClCompile Include="ChessWindow.cpp" />
     <ClCompile Include="ChessView.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
@@ -103,18 +103,18 @@
     <QtMoc Include="ChessView.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\piecesImages\Chess_bdt45.svg" />
-    <None Include="..\..\piecesImages\Chess_blt45.svg" />
-    <None Include="..\..\piecesImages\Chess_kdt45.svg" />
-    <None Include="..\..\piecesImages\Chess_klt45.svg" />
-    <None Include="..\..\piecesImages\Chess_ndt45.svg" />
-    <None Include="..\..\piecesImages\Chess_nlt45.svg" />
-    <None Include="..\..\piecesImages\Chess_pdt45.svg" />
-    <None Include="..\..\piecesImages\Chess_plt45.svg" />
-    <None Include="..\..\piecesImages\Chess_qdt45.svg" />
-    <None Include="..\..\piecesImages\Chess_qlt45.svg" />
-    <None Include="..\..\piecesImages\Chess_rdt45.svg" />
-    <None Include="..\..\piecesImages\Chess_rlt45.svg" />
+    <None Include="..\..\assets\Chess_bdt45.svg" />
+    <None Include="..\..\assets\Chess_blt45.svg" />
+    <None Include="..\..\assets\Chess_kdt45.svg" />
+    <None Include="..\..\assets\Chess_klt45.svg" />
+    <None Include="..\..\assets\Chess_ndt45.svg" />
+    <None Include="..\..\assets\Chess_nlt45.svg" />
+    <None Include="..\..\assets\Chess_pdt45.svg" />
+    <None Include="..\..\assets\Chess_plt45.svg" />
+    <None Include="..\..\assets\Chess_qdt45.svg" />
+    <None Include="..\..\assets\Chess_qlt45.svg" />
+    <None Include="..\..\assets\Chess_rdt45.svg" />
+    <None Include="..\..\assets\Chess_rlt45.svg" />
     <None Include="cpp.hint" />
   </ItemGroup>
   <ItemGroup>

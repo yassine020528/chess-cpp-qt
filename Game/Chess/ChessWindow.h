@@ -1,22 +1,22 @@
 #pragma once
 
 #include <QtWidgets/QMainWindow>
-#include "ui_ChessTest.h"
+#include "ui_Chess.h"
 #include "ChessAlgorithm.h"
 #include "ChessView.h"
 #include"ChessLivrable.h"
 #include "qlayout.h"
-class ChessTest : public QMainWindow
+class ChessWindow : public QMainWindow
 {
     Q_OBJECT
 
 public:
-    ChessTest(QWidget *parent = nullptr );
-    ~ChessTest();
+    ChessWindow(QWidget *parent = nullptr );
+    ~ChessWindow();
 public slots:
     void viewClicked(const QPoint& field);
 private:
-    Ui::ChessTestClass ui;
+    Ui::ChessClass ui;
     ChessView* m_view;
     ChessAlgorithm* m_algorithm;
     QPoint m_clickPoint;

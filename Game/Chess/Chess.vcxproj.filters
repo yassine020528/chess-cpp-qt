@@ -26,16 +26,16 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <QtRcc Include="ChessTest.qrc">
+    <QtRcc Include="Chess.qrc">
       <Filter>Resource Files</Filter>
     </QtRcc>
-    <QtUic Include="ChessTest.ui">
+    <QtUic Include="Chess.ui">
       <Filter>Form Files</Filter>
     </QtUic>
-    <QtMoc Include="ChessTest.h">
+    <QtMoc Include="ChessWindow.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <ClCompile Include="ChessTest.cpp">
+    <ClCompile Include="ChessWindow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -69,40 +69,40 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="cpp.hint" />
-    <None Include="..\..\piecesImages\Chess_bdt45.svg">
+    <None Include="..\..\assets\Chess_bdt45.svg">
       <Filter>Resource Files\pieces</Filter>
     </None>
-    <None Include="..\..\piecesImages\Chess_blt45.svg">
+    <None Include="..\..\assets\Chess_blt45.svg">
       <Filter>Resource Files\pieces</Filter>
     </None>
-    <None Include="..\..\piecesImages\Chess_kdt45.svg">
+    <None Include="..\..\assets\Chess_kdt45.svg">
       <Filter>Resource Files\pieces</Filter>
     </None>
-    <None Include="..\..\piecesImages\Chess_klt45.svg">
+    <None Include="..\..\assets\Chess_klt45.svg">
       <Filter>Resource Files\pieces</Filter>
     </None>
-    <None Include="..\..\piecesImages\Chess_ndt45.svg">
+    <None Include="..\..\assets\Chess_ndt45.svg">
       <Filter>Resource Files\pieces</Filter>
     </None>
-    <None Include="..\..\piecesImages\Chess_nlt45.svg">
+    <None Include="..\..\assets\Chess_nlt45.svg">
       <Filter>Resource Files\pieces</Filter>
     </None>
-    <None Include="..\..\piecesImages\Chess_pdt45.svg">
+    <None Include="..\..\assets\Chess_pdt45.svg">
       <Filter>Resource Files\pieces</Filter>
     </None>
-    <None Include="..\..\piecesImages\Chess_plt45.svg">
+    <None Include="..\..\assets\Chess_plt45.svg">
       <Filter>Resource Files\pieces</Filter>
     </None>
-    <None Include="..\..\piecesImages\Chess_qdt45.svg">
+    <None Include="..\..\assets\Chess_qdt45.svg">
       <Filter>Resource Files\pieces</Filter>
     </None>
-    <None Include="..\..\piecesImages\Chess_qlt45.svg">
+    <None Include="..\..\assets\Chess_qlt45.svg">
       <Filter>Resource Files\pieces</Filter>
     </None>
-    <None Include="..\..\piecesImages\Chess_rdt45.svg">
+    <None Include="..\..\assets\Chess_rdt45.svg">
       <Filter>Resource Files\pieces</Filter>
     </None>
-    <None Include="..\..\piecesImages\Chess_rlt45.svg">
+    <None Include="..\..\assets\Chess_rlt45.svg">
       <Filter>Resource Files\pieces</Filter>
     </None>
   </ItemGroup>
