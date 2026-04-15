@@ -1,4 +1,4 @@
-#include"ChessLivrable.h"
+#include"ChessGame.h"
 
 namespace {
 bool isWhitePiece(char piece)
@@ -40,11 +40,11 @@ bool isPathClear(const ChessBoard* board, int colFrom, int rankFrom, int colTo, 
 }
 }
 
-ChessLivrable::ChessLivrable(QObject* parent)
+ChessGame::ChessGame(QObject* parent)
     : ChessAlgorithm(parent)
 {
 }
-void ChessLivrable ::newGame()
+void ChessGame ::newGame()
 {
     setupBoard();
     board()->setFen("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w");
@@ -53,7 +53,7 @@ void ChessLivrable ::newGame()
     setResult(NoResult);
     setCurrentPlayer(PlayerWhite);
 }
-bool ChessLivrable::move(int colFrom, int rankFrom,
+bool ChessGame::move(int colFrom, int rankFrom,
     int colTo, int rankTo)
 {
     if (currentPlayer() == NoPlayer) {
@@ -497,14 +497,14 @@ bool ChessLivrable::move(int colFrom, int rankFrom,
     setCurrentPlayer(nextPlayer);
     return true;
 }
-bool ChessLivrable::whiteKingCanMove() const {
+bool ChessGame::whiteKingCanMove() const {
     return !isKingInCheck(PlayerWhite);
 }
 
-bool ChessLivrable::blackKingCanMove() const {
+bool ChessGame::blackKingCanMove() const {
     return !isKingInCheck(PlayerDark);
 }
-QPoint ChessLivrable::findKing(Player player) const
+QPoint ChessGame::findKing(Player player) const
 {
     const char king = player == PlayerWhite ? 'K' : 'k';
 
@@ -519,7 +519,7 @@ QPoint ChessLivrable::findKing(Player player) const
     return QPoint();
 }
 
-bool ChessLivrable::isSquareAttackedBy(int col, int rank, Player attacker) const
+bool ChessGame::isSquareAttackedBy(int col, int rank, Player attacker) const
 {
     for (int fromRank = 1; fromRank <= board()->ranks(); ++fromRank) {
         for (int fromCol = 1; fromCol <= board()->columns(); ++fromCol) {
@@ -584,7 +584,7 @@ bool ChessLivrable::isSquareAttackedBy(int col, int rank, Player attacker) const
     return false;
 }
 
-bool ChessLivrable::isKingInCheck(Player player) const
+bool ChessGame::isKingInCheck(Player player) const
 {
     const QPoint king = findKing(player);
     if (!isInsideBoard(board(), king.x(), king.y())) {
@@ -595,7 +595,7 @@ bool ChessLivrable::isKingInCheck(Player player) const
     return isSquareAttackedBy(king.x(), king.y(), attacker);
 }
 
-bool ChessLivrable::moveLeavesKingInCheck(int colFrom, int rankFrom, int colTo, int rankTo, Player player)
+bool ChessGame::moveLeavesKingInCheck(int colFrom, int rankFrom, int colTo, int rankTo, Player player)
 {
     const char source = board()->data(colFrom, rankFrom);
     const char destination = board()->data(colTo, rankTo);
@@ -610,7 +610,7 @@ bool ChessLivrable::moveLeavesKingInCheck(int colFrom, int rankFrom, int colTo, 
 
     return inCheck;
 }
-bool ChessLivrable::kingSurvivesPawns(int kingCol, int kingRank,int pawn1Col, int pawn1Rank, int pawn2Col, int pawn2Rank, int pawn3Col,int pawn3Rank, int pawn4Col, int pawn4Rank, int pawn5Col, int pawn5Rank, int pawn6Col, int pawn6Rank, int pawn7Col, int pawn7Rank, int pawn8Col, int pawn8Rank)const {
+bool ChessGame::kingSurvivesPawns(int kingCol, int kingRank,int pawn1Col, int pawn1Rank, int pawn2Col, int pawn2Rank, int pawn3Col,int pawn3Rank, int pawn4Col, int pawn4Rank, int pawn5Col, int pawn5Rank, int pawn6Col, int pawn6Rank, int pawn7Col, int pawn7Rank, int pawn8Col, int pawn8Rank)const {
     bool test = false;
     int rankTo = kingRank;
     int colTo = kingCol;
@@ -674,7 +674,7 @@ bool ChessLivrable::kingSurvivesPawns(int kingCol, int kingRank,int pawn1Col, in
 
     return test;
 };
-bool ChessLivrable::kingEatenByPawns(int colTo, int rankTo, int pawn1Col, int pawn1Rank, int pawn2Col, int pawn2Rank, int pawn3Col, int pawn3Rank, int pawn4Col, int pawn4Rank, int pawn5Col, int pawn5Rank, int pawn6Col, int pawn6Rank, int pawn7Col, int pawn7Rank, int pawn8Col, int pawn8Rank)const {
+bool ChessGame::kingEatenByPawns(int colTo, int rankTo, int pawn1Col, int pawn1Rank, int pawn2Col, int pawn2Rank, int pawn3Col, int pawn3Rank, int pawn4Col, int pawn4Rank, int pawn5Col, int pawn5Rank, int pawn6Col, int pawn6Rank, int pawn7Col, int pawn7Rank, int pawn8Col, int pawn8Rank)const {
     bool test = false;
     test |= pawnEats(rankTo - pawn1Rank, colTo - pawn1Col);
     test |= pawnEats(rankTo - pawn2Rank, colTo - pawn2Col);
@@ -686,7 +686,7 @@ bool ChessLivrable::kingEatenByPawns(int colTo, int rankTo, int pawn1Col, int pa
     test |= pawnEats(rankTo - pawn8Rank, colTo - pawn8Col);
     return test;
 }
-bool ChessLivrable::pawnEats(int rankDelta, int colDelta)const {
+bool ChessGame::pawnEats(int rankDelta, int colDelta)const {
     bool test = false;
     int i=0;
     if (currentPlayer() == PlayerDark)i = 1;
@@ -697,7 +697,7 @@ bool ChessLivrable::pawnEats(int rankDelta, int colDelta)const {
     return test;
 }
 
-bool ChessLivrable::kingEats(int rankDelta, int colDelta) const {
+bool ChessGame::kingEats(int rankDelta, int colDelta) const {
     bool test = false;
     if ((abs(rankDelta) == 0 && abs(colDelta) == 1) 
         || (abs(rankDelta) == 1 && abs(colDelta) == 0) 
@@ -706,7 +706,7 @@ bool ChessLivrable::kingEats(int rankDelta, int colDelta) const {
     };
     return test;
 }
-bool ChessLivrable::knightEats(int rankDelta, int colDelta)const {
+bool ChessGame::knightEats(int rankDelta, int colDelta)const {
     bool test = false;
     if ((abs(rankDelta) == 2 && abs(colDelta) == 1) || (abs(rankDelta) == 1 && abs(colDelta) == 2)) {
         test = true;
@@ -714,7 +714,7 @@ bool ChessLivrable::knightEats(int rankDelta, int colDelta)const {
     return test;
     
 };
-bool ChessLivrable::queenEats(int rankDelta, int colDelta, int rankFrom, int colFrom)const {
+bool ChessGame::queenEats(int rankDelta, int colDelta, int rankFrom, int colFrom)const {
     bool test = false;
     if (rankDelta == colDelta && rankDelta > 0) {
         test = true;
@@ -794,7 +794,7 @@ bool ChessLivrable::queenEats(int rankDelta, int colDelta, int rankFrom, int col
     };
     return test;
 }
-bool ChessLivrable::bishopEats(int rankDelta, int colDelta,int rankFrom,int colFrom ) const{
+bool ChessGame::bishopEats(int rankDelta, int colDelta,int rankFrom,int colFrom ) const{
     bool test = false;
     if (rankDelta == colDelta && rankDelta > 0) {
         test = true;
@@ -838,7 +838,7 @@ bool ChessLivrable::bishopEats(int rankDelta, int colDelta,int rankFrom,int colF
     };
     return test;
 }
-bool ChessLivrable::rookEats(int rankDelta, int colDelta, int rankFrom, int colFrom) const {
+bool ChessGame::rookEats(int rankDelta, int colDelta, int rankFrom, int colFrom) const {
     bool test = false;
     if (rankDelta == 0 && colDelta != 0 && colDelta > 0) {
         test = true;
@@ -881,7 +881,7 @@ bool ChessLivrable::rookEats(int rankDelta, int colDelta, int rankFrom, int colF
     };
     return test;
 }
-bool ChessLivrable::kingEaten(int rankTo, int colTo, int oppositeKingCol, int oppositeKingRank, int queenCol, int queenRank, int knightCol, int knightRank, int bishopCol, int bishopRank, int rookCol, int rookRank)const {
+bool ChessGame::kingEaten(int rankTo, int colTo, int oppositeKingCol, int oppositeKingRank, int queenCol, int queenRank, int knightCol, int knightRank, int bishopCol, int bishopRank, int rookCol, int rookRank)const {
     bool test = false;
     char destinationTest= board()->data(colTo, rankTo);
     test |= kingEats(rankTo - oppositeKingRank, colTo - oppositeKingCol);
@@ -897,7 +897,7 @@ bool ChessLivrable::kingEaten(int rankTo, int colTo, int oppositeKingCol, int op
     };
     return test;
 }
-bool ChessLivrable::kingSurvives(int kingCol, int kingRank, int oppositeKingCol, int oppositeKingRank, int queenCol, int queenRank, int knightCol, int knightRank, int bishopCol, int bishopRank, int rookCol, int rookRank) const {
+bool ChessGame::kingSurvives(int kingCol, int kingRank, int oppositeKingCol, int oppositeKingRank, int queenCol, int queenRank, int knightCol, int knightRank, int bishopCol, int bishopRank, int rookCol, int rookRank) const {
     bool test = false;
     int rankTo = kingRank;
     int colTo = kingCol;

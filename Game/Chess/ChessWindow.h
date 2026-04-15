@@ -4,7 +4,7 @@
 #include "ui_Chess.h"
 #include "ChessAlgorithm.h"
 #include "ChessView.h"
-#include"ChessLivrable.h"
+#include"ChessGame.h"
 #include "qlayout.h"
 class ChessWindow : public QMainWindow
 {

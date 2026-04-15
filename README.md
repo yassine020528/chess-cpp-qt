@@ -25,7 +25,7 @@ ProjectTestChess/
 |     |- ChessBoard.cpp / ChessBoard.h
 |     |- ChessView.cpp / ChessView.h
 |     |- ChessAlgorithm.cpp / ChessAlgorithm.h
-|     |- ChessLivrable.cpp / ChessLivrable.h
+|     |- ChessGame.cpp / ChessGame.h
 |     |- Chess.ui
 |     |- Chess.qrc
 |     |- Chess.vcxproj
@@ -45,7 +45,7 @@ Creates the Qt application and shows the main window.
 Main window controller. It:
 
 - creates the visual board (`ChessView`)
-- creates the game logic object (`ChessLivrable`)
+- creates the game logic object (`ChessGame`)
 - starts a new game
 - loads piece icons from `assets/`
 - handles click-to-move interaction
@@ -80,7 +80,7 @@ Base game-logic class. It provides:
 - a generic `newGame()`
 - a virtual `move(...)` API for specialized rules
 
-### `ChessLivrable`
+### `ChessGame`
 
 Concrete chess logic used by the app. It currently contains:
 

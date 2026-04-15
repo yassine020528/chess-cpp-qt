@@ -6,7 +6,7 @@ ChessWindow::ChessWindow(QWidget *parent)
     ui.setupUi(this);
     m_selectedField = nullptr;
     m_view = new ChessView;
-    m_algorithm = new ChessLivrable(this);
+    m_algorithm = new ChessGame(this);
     m_algorithm->newGame();
     m_view->setBoard(m_algorithm->board());
     setCentralWidget(m_view);

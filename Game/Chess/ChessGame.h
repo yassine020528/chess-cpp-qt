@@ -2,10 +2,10 @@
 #include"ChessAlgorithm.h"
 #include <QMessageBox>
 
-class ChessLivrable : public ChessAlgorithm
+class ChessGame : public ChessAlgorithm
 {
 public:
-    ChessLivrable(QObject* parent = 0);
+    ChessGame(QObject* parent = 0);
     void newGame();
     bool move(int colFrom, int rankFrom, int colTo, int rankTo);
     bool whiteKingCanMove() const;
